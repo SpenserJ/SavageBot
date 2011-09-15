@@ -4,6 +4,7 @@ class Administration
   match /join(?: (.+))?/, method: :join
   match /part(?: (.+))?/, method: :part
   match 'shutdown', method: :shutdown
+  match 'restart', method: :restart
   match /invite(?: (.+))?/, method: :invite
 
   def initialize(*args)
@@ -31,6 +32,13 @@ class Administration
     exit
   end
   
+  def restart(m)
+    return unless is_admin?(m.user)
+    m.channel.topic = TOPIC + ' :: Savage [Offline]'
+    `ruby bot.rb &`
+    exit
+  end
+  
   def invite(m, nick)
     return unless is_admin?(m.user) || is_configured?(m.user)
     nick ||= m.user.nick
@@ -44,6 +52,7 @@ class Administration
       m.reply("!join (channel) - Tell SavageBot to join a channel (Defaults to #SavageBot)")
       m.reply("!part (channel) - Tell SavageBot to part a channel (Defaults to current)")
       m.reply("!shutdown - Shutdown SavageBot cleanly")
+      m.reply("!restart - Restart SavageBot cleanly")
     end
   end
 end

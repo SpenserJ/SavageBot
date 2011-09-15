@@ -1,12 +1,27 @@
+Dir.chdir File.dirname(__FILE__) # If we're running as a daemon, make sure we're in the right dir
 require 'cinch'
 require 'json'
 require 'net/https'
 require 'mechanize'
+require "dm-core"
+require "dm-types"
+require "dm-migrations"
 require './accounts.rb'
 Dir['./plugins/*.rb'].each {|file| require file }
 
 TOPIC = 'Welcome to SavageBot. IRC bot for FeralHosting and ruTorrent'
 VERSION = 0.1
+DBFILE = Dir.getwd + "/sqlite.db"
+
+# Database
+DataMapper.setup(:default, "sqlite3:///" + DBFILE)
+
+# If database doesn't exist, create. Else update
+if(!File.exists?(DBFILE))
+  DataMapper.auto_migrate!
+elsif(File.exists?(DBFILE))
+  DataMapper.auto_upgrade!
+end
 
 def is_admin?(user)
   user.refresh # be sure to refresh the data, or someone could steal the nick
@@ -20,7 +35,7 @@ end
 
 bot = Cinch::Bot.new do |bot|
   configure do |c|
-    c.plugins.plugins  = [WhatCD, Fux0r, FeralHosting, Administration, DownForEveryone, BasicCTCP, Help]
+    c.plugins.plugins  = [WhatCD, Fux0r, FeralHosting, Administration, DownForEveryone, BasicCTCP, Plugins::MultiQDB, Plugins::Scores, Help]
     
     c.server = "irc.what-network.net"
     c.nick = c.realname = c.user = IRC[0]
