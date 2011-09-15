@@ -12,6 +12,7 @@ Dir['./plugins/*.rb'].each {|file| require file }
 TOPIC = 'Welcome to SavageBot. IRC bot for FeralHosting and ruTorrent'
 VERSION = 0.1
 DBFILE = Dir.getwd + "/sqlite.db"
+ADMINS = ["brilliantwinter", "makeshift"]
 
 # Database
 DataMapper.setup(:default, "sqlite3:///" + DBFILE)
@@ -25,7 +26,7 @@ end
 
 def is_admin?(user)
   user.refresh # be sure to refresh the data, or someone could steal the nick
-  @admins.include?(user.authname.downcase) if user.authname.nil? == false
+  ADMINS.include?(user.authname.downcase) if user.authname.nil? == false
 end
 
 def is_configured?(user)
@@ -35,7 +36,17 @@ end
 
 bot = Cinch::Bot.new do |bot|
   configure do |c|
-    c.plugins.plugins  = [WhatCD, Fux0r, FeralHosting, Administration, DownForEveryone, BasicCTCP, Plugins::MultiQDB, Plugins::Scores, Help]
+    c.plugins.plugins  = [WhatCD,
+                          Fux0r,
+                          FeralHosting,
+                          Administration,
+                          DownForEveryone,
+                          BasicCTCP,
+                          Plugins::MultiQDB,
+                          Plugins::Scores,
+                          Plugins::UrbanDictionary,
+                          Impersonation,
+                          Help]
     
     c.server = "irc.what-network.net"
     c.nick = c.realname = c.user = IRC[0]

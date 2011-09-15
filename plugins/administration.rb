@@ -7,12 +7,6 @@ class Administration
   match 'restart', method: :restart
   match /invite(?: (.+))?/, method: :invite
 
-  def initialize(*args)
-    super
-
-    @admins = ["brilliantwinter"]
-  end
-
   def join(m, channel)
     return unless is_admin?(m.user)
     channel ||= '#SavageBot'
