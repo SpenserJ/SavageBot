@@ -6,6 +6,7 @@ require './accounts.rb'
 Dir['./plugins/*.rb'].each {|file| require file }
 
 TOPIC = 'Welcome to SavageBot. IRC bot for FeralHosting and ruTorrent'
+VERSION = 0.1
 
 def is_admin?(user)
   user.refresh # be sure to refresh the data, or someone could steal the nick
@@ -19,16 +20,20 @@ end
 
 bot = Cinch::Bot.new do |bot|
   configure do |c|
-    c.server = "irc.what-network.net"
-    c.nick = c.realname = c.user = 'SavageBot'
+    c.plugins.plugins  = [WhatCD, Fux0r, FeralHosting, Administration, DownForEveryone, BasicCTCP, Help]
     
-    c.plugins.plugins  = [WhatCD, Fux0r, FeralHosting, Administration, Help]
+    c.server = "irc.what-network.net"
+    c.nick = c.realname = c.user = IRC[0]
   end
   
   on :connect do |m|
     print 'Connected ' + m.inspect
-    User('NickServ').send('identify 2022120003')
-    Channel('#SavageBot').join
+    User('NickServ').send('identify ' + IRC[1])
+    User('ChanServ').send('invite #SavageBot')
+  end
+  
+  on :invite do |m|
+    m.channel.join
   end
   
   on :join do |m|
