@@ -46,6 +46,7 @@ bot = Cinch::Bot.new do |bot|
                           Plugins::Scores,
                           Plugins::UrbanDictionary,
                           Impersonation,
+                          SavageBot::Plugins::Users,
                           Help]
     
     c.server = "irc.what-network.net"
