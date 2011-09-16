@@ -1,3 +1,6 @@
+require 'net/https'
+require 'json'
+
 class AccountFeralHosting
   include DataMapper::Resource
 

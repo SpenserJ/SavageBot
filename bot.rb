@@ -1,8 +1,5 @@
 Dir.chdir File.dirname(__FILE__) # If we're running as a daemon, make sure we're in the right dir
 require 'cinch'
-require 'json'
-require 'net/https'
-require 'mechanize'
 require "dm-core"
 require "dm-types"
 require "dm-migrations"
@@ -30,14 +27,14 @@ end
                           SavageBot::Plugins::Fux0r,
                           SavageBot::Plugins::FeralHosting,
                           SavageBot::Plugins::Administration,
-                          DownForEveryone,
+                          SavageBot::Plugins::DownForEveryone,
                           BasicCTCP,
                           Plugins::MultiQDB,
                           Plugins::Scores,
                           Plugins::UrbanDictionary,
                           SavageBot::Plugins::Impersonation,
                           SavageBot::Plugins::Users,
-                          Help]
+                          SavageBot::Plugins::Help]
     
     c.server = "irc.what-network.net"
     c.nick = c.realname = c.user = IRC[0]

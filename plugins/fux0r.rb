@@ -1,3 +1,5 @@
+require 'mechanize'
+
 class AccountFux0r
   include DataMapper::Resource
 

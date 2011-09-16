@@ -1,3 +1,5 @@
+require 'mechanize'
+
 class AccountWhatCD
   include DataMapper::Resource
 
