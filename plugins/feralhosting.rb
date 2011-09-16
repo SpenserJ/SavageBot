@@ -10,8 +10,7 @@ class AccountFeralHosting
   belongs_to :user
 end
 
-def feral_api(m, request)
-  return m.reply("Please connect your FeralHosting account first") unless (user = is_logged_in?(m)) != false && (user = AccountFeralHosting.first(:user => user)).nil? == false
+def feral_api(user, request)
   uri = URI.parse("https://www.feralhosting.com/api/json/0.3/#{user.username}/#{request}")
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
@@ -34,14 +33,14 @@ module SavageBot
       match /feral unlink/, method: :unlink
       
       def hdd(m)
-        return unless is_configured?(m.user)
-        json = feral_api(m, 'server/disk')
+        return m.reply("Please connect your FeralHosting account first") unless (user = is_logged_in?(m)) != false && (user = AccountFeralHosting.first(:user => user)).nil? == false
+        json = feral_api(user, 'server/disk')
         m.reply "#{m.user.nick}: You have used " + (json['kilobytes'].to_f / 1024 / 1024).round(2).to_s + ' GB of HDD space'
       end
       
       def bandwidth(m)
-        return unless is_configured?(m.user)
-        json = feral_api(m, 'server/bandwidth')
+        return m.reply("Please connect your FeralHosting account first") unless (user = is_logged_in?(m)) != false && (user = AccountFeralHosting.first(:user => user)).nil? == false
+        json = feral_api(user, 'server/bandwidth')
         m.reply "#{m.user.nick}: You have uploaded " + (json['upload-external-bytes'].to_f / 1024 / 1024 / 1024).round(2).to_s + ' GB'
       end
       
