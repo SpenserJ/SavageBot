@@ -14,6 +14,11 @@ module SavageBot
         definition = CGI.unescape_html(page.search('div.definition')[0].inner_text).gsub(/\s+/, ' ').strip
         m.reply("#{m.user.nick}: #{word} - #{definition} (#{url})");
       end
+      
+      listen_to :help, method: :help
+      def help(m)
+        m.user.send("!urban word - Look up a word on UrbanDictionary, and display the first result")
+      end
     end
   end
 end

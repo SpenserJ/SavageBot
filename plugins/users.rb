@@ -79,6 +79,13 @@ module SavageBot
         user.save
         m.reply("#{user.name} is now a" + (level == '0' ? ' user' : 'n admin'))
       end
+      
+      listen_to :help, method: :help
+      def help(m)
+        m.user.send("!register email@address.com password - Register your current nickname with a Savage account\n" +
+                    "!login password - Log in to the Savage account connected to your current nickname\n" +
+                    "!logout - Log out of the Savage account that you're signed into")
+      end
     end
   end
 end
