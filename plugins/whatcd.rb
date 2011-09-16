@@ -5,7 +5,6 @@ class AccountWhatCD
 
   property(:id,         Serial)
   property(:username,   String, :unique => true)
-  property(:password,   String)
   
   belongs_to :user
 end
@@ -17,7 +16,7 @@ module SavageBot
       
       match /what( stats)?$/, method: :stats
       match /(what )?freeleech$/, method: :freeleech
-      match /what link (.+) (.+)/, method: :link
+      match /what link (.+)/, method: :link
       match /what unlink/, method: :unlink
       
       def stats(m)
@@ -28,12 +27,15 @@ module SavageBot
           login_page = a.click(page.link_with(:text => "Login"))
           # Submit login page
           idx_page = login_page.form_with(:action => "login.php") do |f|
-            f.username = user.username
-            f.password = user.password
+            f.username = WHATCD[0]
+            f.password = WHATCD[1]
+          end.submit
+          profile = idx_page.form_with(:action => "user.php") do |f|
+            f.search = user.username
           end.submit
           stats = []
-          idx_page.search('#userinfo_stats li').each { |stat|
-            stats.push(stat.children[0].content.gsub(':', '') + ': ' + stat.search('span')[0].content)
+          profile.search('#content ul.stats li')[2,4].each { |stat|
+            stats.push(stat.inner_text)
           }
           m.reply "#{m.user.nick}: " + stats.join(', ')
         end
@@ -46,8 +48,8 @@ module SavageBot
         a.get('https://ssl.what.cd/login.php') do |page|
           # Submit login page
           idx_page = page.form_with(:action => "login.php") do |f|
-            f.username = user.username
-            f.password = user.password
+            f.username = WHATCD[0]
+            f.password = WHATCD[1]
           end.submit
           search_page = a.click(idx_page.link_with(:href => "torrents.php"))
           search_page = a.click(search_page.link_with(:href => "torrents.php?action=advanced&"))
@@ -62,10 +64,10 @@ module SavageBot
         end
       end
       
-      def link(m, username, password)
+      def link(m, username)
         return m.reply("Please sign into Savage first") unless (user = is_logged_in?(m)) != false
         return m.reply("That What.CD account is already linked") if AccountWhatCD.first(:username => username).nil? == false
-        AccountWhatCD.create(:username => username, :password => password, :user => user)
+        AccountWhatCD.create(:username => username, :user => user)
         m.reply("Credentials have been saved for your What.CD account")
       end
       
@@ -80,7 +82,7 @@ module SavageBot
       def help(m)
         m.user.send("!what stats (!what) - Retrieve your statistics from What.CD\n" +
                     "!what freeleech (!freeleech) - Display the last 5 freeleech albums from What.CD\n" +
-                    "!what link username password - Connect your Savage account to a What.CD account\n" +
+                    "!what link username - Connect your Savage account to a What.CD account\n" +
                     "!what unlink - Break the connection between your Savage account and What.CD account")
       end
     end
