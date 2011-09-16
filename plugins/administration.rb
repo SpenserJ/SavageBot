@@ -4,21 +4,28 @@ module SavageBot
       include Cinch::Plugin
     
       match /join(?: (.+))?/, method: :join
-      match /part(?: (.+))?/, method: :part
+      match /part( [^\s]+)?( .+)?/, method: :part
       match 'shutdown', method: :admin_shutdown
       match /invite(?: (.+))?/, method: :invite
     
       def join(m, channel)
         return unless is_admin?(m)
-        channel ||= '#SavageBot'
+        channel = '#SavageBot' if channel.nil?
         Channel(channel).join
       end
     
-      def part(m, channel)
+      def part(m, channel, message)
         return unless is_admin?(m)
+        if channel.nil? == false
+          channel = Channel(channel.strip)
+        else
+          channel = m.channel if channel.nil?
+        end
         m.channel.topic = TOPIC + ' :: Savage [Offline]'
-        channel ||= m.channel
-        Channel(channel).part if channel
+        print message.inspect
+        message = 'Mommy said "If you can\'t say anything nice, don\'t say anything at all!", so with that, I\'m leaving!' if message.nil?
+        print message.inspect
+        channel.part(message.strip) if channel
       end
       
       def admin_shutdown(m)
