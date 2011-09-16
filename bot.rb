@@ -31,7 +31,7 @@ end
                           BasicCTCP,
                           Plugins::MultiQDB,
                           Plugins::Scores,
-                          Plugins::UrbanDictionary,
+                          SavageBot::Plugins::UrbanDictionary,
                           SavageBot::Plugins::Impersonation,
                           SavageBot::Plugins::Users,
                           SavageBot::Plugins::Help]
