@@ -24,7 +24,7 @@ elsif(File.exists?(DBFILE))
   DataMapper.auto_upgrade!
 end
 
-bot = Cinch::Bot.new do |bot|
+@bot = bot = Cinch::Bot.new do |bot|
   configure do |c|
     c.plugins.plugins  = [SavageBot::Plugins::WhatCD,
                           SavageBot::Plugins::Fux0r,
@@ -59,5 +59,18 @@ bot = Cinch::Bot.new do |bot|
     end
   end
 end
+
+def shutdown
+  @bot.channels.each { |channel|
+    channel.topic = TOPIC + ' :: Savage [Offline]' if channel.name == '#SavageBot'
+    channel.part("My master is trying to kill me! Someone call 911!")
+  }
+  @bot.plugins.each { |p| p.shutdown if p.respond_to?('shutdown') }
+  sleep(5)
+  exit
+end
+
+trap("INT")  do; shutdown; end
+trap("KILL") do; shutdown; end
 
 bot.start

@@ -10,10 +10,14 @@ end
 
 def is_logged_in?(m)
   return ($logged_in.has_key?(m.user.authname) ? $logged_in[m.user.authname] : false) unless m.user.authname.nil?
+  return false
 end
 
 def is_admin?(m)
-  return user.rank == 1 if (user = is_logged_in?(m)) != false
+  if (user = is_logged_in?(m)) != false
+    return user.rank == 1
+  end
+  return false
 end
 
 module SavageBot

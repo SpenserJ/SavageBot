@@ -5,8 +5,7 @@ module SavageBot
     
       match /join(?: (.+))?/, method: :join
       match /part(?: (.+))?/, method: :part
-      match 'shutdown', method: :shutdown
-      match 'restart', method: :restart
+      match 'shutdown', method: :admin_shutdown
       match /invite(?: (.+))?/, method: :invite
     
       def join(m, channel)
@@ -22,17 +21,9 @@ module SavageBot
         Channel(channel).part if channel
       end
       
-      def shutdown(m)
+      def admin_shutdown(m)
         return unless is_admin?(m)
-        m.channel.topic = TOPIC + ' :: Savage [Offline]'
-        exit
-      end
-      
-      def restart(m)
-        return unless is_admin?(m)
-        m.channel.topic = TOPIC + ' :: Savage [Offline]'
-        `ruby bot.rb &`
-        exit
+        shutdown
       end
       
       def invite(m, nick)
@@ -48,7 +39,6 @@ module SavageBot
           m.reply("!join (channel) - Tell SavageBot to join a channel (Defaults to #SavageBot)")
           m.reply("!part (channel) - Tell SavageBot to part a channel (Defaults to current)")
           m.reply("!shutdown - Shutdown SavageBot cleanly")
-          m.reply("!restart - Restart SavageBot cleanly")
         end
       end
     end
