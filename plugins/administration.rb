@@ -44,7 +44,7 @@ module SavageBot
         m.user.send("!invite (username) - Invite a user into #SavageBot")
         if is_admin?(m)
           m.user.send("!join (channel) - Tell SavageBot to join a channel (Defaults to #SavageBot)\n" +
-                      "!part (channel) - Tell SavageBot to part a channel (Defaults to current)\n" +
+                      "!part (channel) (part message) - Tell SavageBot to part a channel (Defaults to current)\n" +
                       "!shutdown - Shutdown SavageBot cleanly")
         end
       end
