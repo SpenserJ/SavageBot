@@ -36,7 +36,6 @@ class WhatCD
   end
   
   def freeleech(m)
-    return unless is_configured?(m.user)
     return m.reply("Please connect your What.CD account first") unless (user = is_logged_in?(m)) != false && (user = AccountWhatCD.first(:user => user)).nil? == false
     
     a = Mechanize.new
