@@ -61,10 +61,10 @@ module SavageBot
       
       listen_to :help, method: :help
       def help(m)
-        m.reply("!feral hdd (!hdd) - Retrieve your HDD usage from FeralHosting")
-        m.reply("!feral bandwidth (!bandwidth) - Retrieve your bandwidth usage from FeralHosting")
-        m.reply("!feral link username - Connect your Savage account to a FeralHosting account")
-        m.reply("!feral unlink - Break the connection between your Savage account and FeralHosting account")
+        m.user.send("!feral hdd (!hdd) - Retrieve your HDD usage from FeralHosting\n" +
+                    "!feral bandwidth (!bandwidth) - Retrieve your bandwidth usage from FeralHosting\n" +
+                    "!feral link username - Connect your Savage account to a FeralHosting account\n" +
+                    "!feral unlink - Break the connection between your Savage account and FeralHosting account")
       end
     end
   end

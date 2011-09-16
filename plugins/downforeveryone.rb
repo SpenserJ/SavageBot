@@ -21,7 +21,7 @@ module SavageBot
       
       listen_to :help, method: :help
       def help(m)
-        m.reply("!dfeojm domain (!downforeveryone domain) - Check if a website is online or offline")
+        m.user.send("!dfeojm domain (!downforeveryone domain) - Check if a website is online or offline")
       end
     end
   end

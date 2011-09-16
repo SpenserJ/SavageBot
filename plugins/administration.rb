@@ -41,11 +41,11 @@ module SavageBot
       
       listen_to :help, method: :help
       def help(m)
-        m.reply("!invite (username) - Invite a user into #SavageBot")
+        m.user.send("!invite (username) - Invite a user into #SavageBot")
         if is_admin?(m)
-          m.reply("!join (channel) - Tell SavageBot to join a channel (Defaults to #SavageBot)")
-          m.reply("!part (channel) - Tell SavageBot to part a channel (Defaults to current)")
-          m.reply("!shutdown - Shutdown SavageBot cleanly")
+          m.user.send("!join (channel) - Tell SavageBot to join a channel (Defaults to #SavageBot)\n" +
+                      "!part (channel) - Tell SavageBot to part a channel (Defaults to current)\n" +
+                      "!shutdown - Shutdown SavageBot cleanly")
         end
       end
     end

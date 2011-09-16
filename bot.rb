@@ -38,6 +38,7 @@ end
     
     c.server = "irc.what-network.net"
     c.nick = c.realname = c.user = IRC[0]
+    c.messages_per_second = 2
   end
   
   on :connect do |m|

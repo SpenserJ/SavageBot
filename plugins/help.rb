@@ -5,7 +5,7 @@ module SavageBot
     
       match 'help'
       def execute(m)
-        m.reply("This is the help documentation\n!help will display this info")
+        m.user.send("This is the help documentation\n!help will display this info")
         @bot.dispatch(:help, m)
       end
     end

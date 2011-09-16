@@ -79,10 +79,10 @@ module SavageBot
       
       listen_to :help, method: :help
       def help(m)
-        m.reply("!fux0r stats (!fux0r) - Retrieve your statistics from Fux0r")
-        m.reply("!fux0r freeleech - Display the last 5 freeleech albums from Fux0r")
-        m.reply("!fux0r link username password - Connect your Savage account to a Fux0r account")
-        m.reply("!fux0r unlink - Break the connection between your Savage account and Fux0r account")
+        m.user.send("!fux0r stats (!fux0r) - Retrieve your statistics from Fux0r\n" +
+                    "!fux0r freeleech - Display the last 5 freeleech albums from Fux0r\n" +
+                    "!fux0r link username password - Connect your Savage account to a Fux0r account\n" +
+                    "!fux0r unlink - Break the connection between your Savage account and Fux0r account")
       end
     end
   end

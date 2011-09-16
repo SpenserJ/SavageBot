@@ -31,7 +31,7 @@ class RTorrent
   
   listen_to :help, method: :help
   def help(m)
-    m.reply("!feral hdd (!hdd) - Retrieve your HDD usage from FeralHosting")
-    m.reply("!feral bandwidth (!bandwidth) - Retrieve your bandwidth usage from FeralHosting")
+    m.user.send("!feral hdd (!hdd) - Retrieve your HDD usage from FeralHosting\n" +
+                "!feral bandwidth (!bandwidth) - Retrieve your bandwidth usage from FeralHosting")
   end
 end

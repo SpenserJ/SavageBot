@@ -78,10 +78,10 @@ module SavageBot
       
       listen_to :help, method: :help
       def help(m)
-        m.reply("!what stats (!what) - Retrieve your statistics from What.CD")
-        m.reply("!what freeleech (!freeleech) - Display the last 5 freeleech albums from What.CD")
-        m.reply("!what link username password - Connect your Savage account to a What.CD account")
-        m.reply("!what unlink - Break the connection between your Savage account and What.CD account")
+        m.user.send("!what stats (!what) - Retrieve your statistics from What.CD\n" +
+                    "!what freeleech (!freeleech) - Display the last 5 freeleech albums from What.CD\n" +
+                    "!what link username password - Connect your Savage account to a What.CD account\n" +
+                    "!what unlink - Break the connection between your Savage account and What.CD account")
       end
     end
   end
