@@ -9,7 +9,11 @@ class User
 end
 
 def is_logged_in?(m)
-  return ($logged_in.has_key?(m.user.authname) ? $logged_in[m.user.authname] : false)
+  return ($logged_in.has_key?(m.user.authname) ? $logged_in[m.user.authname] : false) unless m.user.authname.nil?
+end
+
+def is_admin?(m)
+  return user.rank == 1 if (user = is_logged_in?(m)) != false
 end
 
 module SavageBot
@@ -21,11 +25,14 @@ module SavageBot
         super
         
         $logged_in = {}
+        @admin_key = Array.new(16) { rand(256) }.pack('C*').unpack('H*').first
+        print "\n\nAdmin key is #{@admin_key}\n\n"
       end
     
       match /register ([^\s]+) (.+)/, method: :register
       match /login (.+)/, method: :login
       match 'logout', method: :logout
+      match /rank (.+) ([01]) ([a-zA-Z0-9]{32})/, method: :rank
       
       def register(m, email, password)
         if m.user.authname.nil?
@@ -59,6 +66,14 @@ module SavageBot
         return m.reply("You're not signed in as #{m.user.authname} right now") if is_logged_in?(m) == false
         $logged_in.delete(m.user.authname)
         m.reply("You're no longer signed in as #{m.user.authname}")
+      end
+      
+      def rank(m, user, level, key)
+        return unless key == @admin_key
+        return m.reply("#{user} has not registered with Savage before") if (user = User.first(:name => user)).nil?
+        user.rank = level
+        user.save
+        m.reply("#{user.name} is now a" + (level == '0' ? ' user' : 'n admin'))
       end
     end
   end

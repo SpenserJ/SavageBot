@@ -24,16 +24,6 @@ elsif(File.exists?(DBFILE))
   DataMapper.auto_upgrade!
 end
 
-def is_admin?(user)
-  user.refresh # be sure to refresh the data, or someone could steal the nick
-  ADMINS.include?(user.authname.downcase) if user.authname.nil? == false
-end
-
-def is_configured?(user)
-  user.refresh # be sure to refresh the data, or someone could steal the nick
-  USERS.include?(user.authname.downcase) if user.authname.nil? == false
-end
-
 bot = Cinch::Bot.new do |bot|
   configure do |c|
     c.plugins.plugins  = [WhatCD,
