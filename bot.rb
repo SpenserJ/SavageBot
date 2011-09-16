@@ -26,16 +26,16 @@ end
 
 bot = Cinch::Bot.new do |bot|
   configure do |c|
-    c.plugins.plugins  = [WhatCD,
-                          Fux0r,
-                          FeralHosting,
-                          Administration,
+    c.plugins.plugins  = [SavageBot::Plugins::WhatCD,
+                          SavageBot::Plugins::Fux0r,
+                          SavageBot::Plugins::FeralHosting,
+                          SavageBot::Plugins::Administration,
                           DownForEveryone,
                           BasicCTCP,
                           Plugins::MultiQDB,
                           Plugins::Scores,
                           Plugins::UrbanDictionary,
-                          Impersonation,
+                          SavageBot::Plugins::Impersonation,
                           SavageBot::Plugins::Users,
                           Help]
     
