@@ -73,7 +73,7 @@ module SavageBot
       end
       
       def rank(m, user, level, key)
-        return unless key == @admin_key
+        return unless key == @admin_key || is_admin?(m)
         return m.reply("#{user} has not registered with Savage before") if (user = User.first(:name => user)).nil?
         user.rank = level
         user.save
@@ -85,6 +85,8 @@ module SavageBot
         m.user.send("!register email@address.com password - Register your current nickname with a Savage account\n" +
                     "!login password - Log in to the Savage account connected to your current nickname\n" +
                     "!logout - Log out of the Savage account that you're signed into")
+        return unless is_admin?(m)
+        m.user.send("!rank username [0|1] (key) - Change a user's rank (0=user, 1=admin). The key is currently #{@admin_key}")
       end
     end
   end

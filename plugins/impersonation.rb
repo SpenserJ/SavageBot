@@ -12,7 +12,7 @@ module SavageBot
       
       listen_to :help, method: :help
       def help(m)
-        return unless is_admin?(m.user)
+        return unless is_admin?(m)
         m.user.send("!impersonation message - Send a message from SavageBot's account")
       end
     end
