@@ -34,6 +34,7 @@ end
                           SavageBot::Plugins::UrbanDictionary,
                           SavageBot::Plugins::Impersonation,
                           SavageBot::Plugins::Users,
+                          SavageBot::Plugins::XKCD,
                           SavageBot::Plugins::Help]
     
     c.server = "irc.what-network.net"
