@@ -34,7 +34,7 @@ module SavageBot
       end
       
       def invite(m, nick)
-        return unless is_admin?(m) || is_configured?(m.user)
+        return unless is_admin?(m) || is_logged_in?(m) != false
         nick ||= m.user.nick
         bot.raw('invite ' + nick.strip + ' #SavageBot')
       end
