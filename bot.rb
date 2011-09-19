@@ -28,6 +28,8 @@ end
                           SavageBot::Plugins::FeralHosting,
                           SavageBot::Plugins::Administration,
                           SavageBot::Plugins::DownForEveryone,
+                          SavageBot::Plugins::Log,
+                          SavageBot::Plugins::SED,
                           BasicCTCP,
                           Plugins::MultiQDB,
                           Plugins::Scores,
