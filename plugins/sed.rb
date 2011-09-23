@@ -3,7 +3,7 @@ module SavageBot
     class SED
       include Cinch::Plugin
       
-      SED_REGEX = /s\/(.*)\/(.*)\/(i)?/
+      SED_REGEX = /^s\/(.*)\/(.*)\/(i)?$/
       
       listen_to :channel
       

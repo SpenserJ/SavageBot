@@ -54,9 +54,7 @@ module SavageBot
             f.freeleech = 1
           end.submit
           freeleech = []
-          print results_page.inspect
           torrents = results_page.search('#content li.torrent_name')[0..4].each { |torrent|
-            print torrent.inspect
             freeleech.push(torrent.search('div')[0].children[0, 7].inner_text().strip)
           }
           m.reply "Recent freeleeches: " + freeleech.join(", ")
